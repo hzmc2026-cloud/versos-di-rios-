@@ -73,20 +73,13 @@ class _SplashScreenState extends State<SplashScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    padding: const EdgeInsets.all(28),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.15),
-                      border: Border.all(
-                        color: const Color(0xFFFBBF24).withValues(alpha: 0.7),
-                        width: 1.5,
-                      ),
-                    ),
-                    child: const Icon(
-                      Icons.auto_stories_outlined,
-                      size: 64,
-                      color: Color(0xFFFBBF24),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(32),
+                    child: Image.asset(
+                      'assets/app_icon.png',
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.cover,
                     ),
                   ),
                   const SizedBox(height: 28),

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:versos_diarios/services/notification_service.dart';
 import 'package:versos_diarios/views/card_creator_screen.dart';
 import 'package:versos_diarios/views/devotional_screen.dart';
 import 'package:versos_diarios/views/home_screen.dart';
 import 'package:versos_diarios/views/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await NotificationService.instance.init();
+  } catch (_) {
+    // Notificações são opcionais: o app segue funcionando sem elas.
+  }
   runApp(const VersosDiariosApp());
 }
 

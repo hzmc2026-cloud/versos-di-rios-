@@ -3,6 +3,7 @@ import 'package:versos_diarios/models/devotional.dart';
 import 'package:versos_diarios/models/verse.dart';
 import 'package:versos_diarios/services/bible_offline_service.dart';
 import 'package:versos_diarios/services/gemini_service.dart';
+import 'package:versos_diarios/utils/share_helper.dart';
 import 'package:versos_diarios/views/card_creator_screen.dart';
 import 'package:versos_diarios/widgets/app_button.dart';
 import 'package:versos_diarios/widgets/section_title.dart';
@@ -45,8 +46,7 @@ class _DevotionalScreenState extends State<DevotionalScreen> {
     super.dispose();
   }
 
-  void _onThemeChanged(VerseTheme theme) {
-    setState(() {
+  void _onThemeChanged(VerseTheme theme) {    setState(() {
       _theme = theme;
       _verse = BibleOfflineService.getRandomByTheme(theme);
       _devotional = null;
@@ -88,6 +88,15 @@ class _DevotionalScreenState extends State<DevotionalScreen> {
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  /// Compartilha o devocional atual ("Enviar para quem precisa").
+  Future<void> _shareDevotional() {
+    final devotional = _devotional;
+    if (devotional != null) {
+      return ShareHelper.shareDevotional(devotional);
+    }
+    return ShareHelper.shareVerse(_verse);
   }
 
   @override
@@ -203,6 +212,15 @@ class _DevotionalScreenState extends State<DevotionalScreen> {
             ),
             _block('Oração', devotional.prayer, Icons.favorite_outline),
             const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: AppButton(
+                label: 'Enviar para quem precisa',
+                icon: Icons.send_outlined,
+                onPressed: _shareDevotional,
+              ),
+            ),
+            const SizedBox(height: 8),
             SizedBox(
               width: double.infinity,
               child: AppButton(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:versos_diarios/models/verse.dart';
+import 'package:versos_diarios/utils/share_helper.dart';
 import 'package:versos_diarios/widgets/app_button.dart';
 import 'package:versos_diarios/widgets/section_title.dart';
 
@@ -87,12 +88,23 @@ class _CardCreatorScreenState extends State<CardCreatorScreen> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Versos Diários',
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        letterSpacing: 2,
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withValues(alpha: 0.25),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        '📖 Versos Diários',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          letterSpacing: 1.5,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -130,17 +142,9 @@ class _CardCreatorScreenState extends State<CardCreatorScreen> {
             SizedBox(
               width: double.infinity,
               child: AppButton(
-                label: 'Compartilhar (em breve)',
-                icon: Icons.share_outlined,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text(
-                        'O compartilhamento com imagem chegará na próxima etapa (share_plus + screenshot).',
-                      ),
-                    ),
-                  );
-                },
+                label: 'Enviar para alguém que precisa',
+                icon: Icons.send_outlined,
+                onPressed: () => ShareHelper.shareVerse(widget.verse),
               ),
             ),
           ],

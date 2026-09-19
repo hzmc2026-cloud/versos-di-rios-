@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:versos_diarios/models/verse.dart';
+import 'package:versos_diarios/utils/share_helper.dart';
 
 /// Cartão reutilizável que exibe um versículo.
 class VerseCard extends StatelessWidget {
   final Verse verse;
   final VoidCallback? onTap;
   final bool showTheme;
+  final bool showShareButton;
+  final String? reflection;
 
   const VerseCard({
     super.key,
     required this.verse,
     this.onTap,
     this.showTheme = true,
+    this.showShareButton = false,
+    this.reflection,
   });
+
+  /// Compartilha este versículo ("Enviar para alguém que precisa").
+  Future<void> shareVerse() {
+    return ShareHelper.shareVerse(verse, reflection: reflection);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +78,20 @@ class VerseCard extends StatelessWidget {
                   ),
                 ],
               ),
+              if (showShareButton) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: TextButton.icon(
+                    onPressed: shareVerse,
+                    icon: const Icon(
+                      Icons.send_outlined,
+                      size: 18,
+                    ),
+                    label: const Text('Enviar para alguém que precisa'),
+                  ),
+                ),
+              ],
             ],
           ),
         ),
